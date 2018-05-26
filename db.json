@@ -1,0 +1,27 @@
+{
+  "users": [{
+      "id": 1,
+      "username": "admin",
+      "hashedPassword": "$2a$10$X5ZvKirv8fgVUejlS.2Cc.cuG.QIq1hqq7CI/hvX9ugAWZrXMi/Ya"
+    },
+    {
+      "id": 2,
+      "username": "guest",
+      "hashedPassword": "$2a$10$s7CmCwORLsCBYaHxVWMtHO1DReZ71ZDlLfJAgv2VhSQXGMMuLS6PG",
+      "cash": 87000000
+    }
+  ],
+  "product": [{
+    "id": 1,
+    "userId": 1,
+    "title": "Iphone10",
+    "imgUrl": "",
+    "productCount": 3,
+    "cost": ""
+  }],
+  "cart": [{
+    "id": "1",
+    "userId": "sumCount",
+    "buyCount": 1
+  }]
+}
