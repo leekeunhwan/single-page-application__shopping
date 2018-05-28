@@ -5,6 +5,13 @@ const productAPI = axios.create({
 
 const rootEl = document.querySelector('.root');
 
+const templates = {
+  login: document.querySelector('#login').content,
+  join: document.querySelector('#join').content,
+  productList: document.querySelector('#product-list').content,
+  productItem: document.querySelector('#product-item').content
+}
+
 
 function login(token) {
   localStorage.setItem('token', token);
@@ -34,11 +41,25 @@ async function loginPage() {
   render(fragment);
 }
 
-const templates = {
-  login: document.querySelector('#login').content,
-  productList: document.querySelector('#product-list').content,
-  productItem: document.querySelector('#product-item').content
+async function joinPage() {
+  const fragment = document.importNode(templates.join, true);
+  const formEl = fragment.querySelector('.join__form');
+  formEl.addEventListener('submit', async e => {
+    const payload = {
+      username: e.target.elements.username.value,
+      password: e.target.elements.password.value
+    };
+    e.preventDefault();
+    const res = await productAPI.post('/users/register/', payload);
+    if (payload.username == '') {
+      formEl.querySelector('.join__alert').textContent = '아이디가 중복되었습니다. 다시 입력해주십시요'
+    }
+    indexPage();
+  })
+  render(fragment);
 }
+
+
 
 function render(fragment) {
   rootEl.textContent = "";
@@ -61,6 +82,10 @@ async function indexPage() {
 
   listFragment.querySelector('.product__cart-btn').addEventListener('click', e => {
     // postFormPage();
+  })
+
+  listFragment.querySelector('.product__join-btn').addEventListener('click', e => {
+    joinPage();
   })
   render(listFragment);
 }

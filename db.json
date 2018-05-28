@@ -1,5 +1,6 @@
 {
-  "users": [{
+  "users": [
+    {
       "id": 1,
       "username": "admin",
       "hashedPassword": "$2a$10$X5ZvKirv8fgVUejlS.2Cc.cuG.QIq1hqq7CI/hvX9ugAWZrXMi/Ya"
@@ -9,19 +10,33 @@
       "username": "guest",
       "hashedPassword": "$2a$10$s7CmCwORLsCBYaHxVWMtHO1DReZ71ZDlLfJAgv2VhSQXGMMuLS6PG",
       "cash": 87000000
+    },
+    {
+      "username": "moong2",
+      "hashedPassword": "$2a$10$JkiHpveiZ9HiPHs/6tpo7egv.EC.ey2NyuiB96bEAMeZAldJ/Ad.O",
+      "id": 3
+    },
+    {
+      "username": "dongwon",
+      "hashedPassword": "$2a$10$0EXbppW1Mio1TLmaSbu/NekT4LVS202jpdVR1QFY7WiG.O.hgJaIW",
+      "id": 4
     }
   ],
-  "product": [{
-    "id": 1,
-    "userId": 1,
-    "title": "Iphone10",
-    "imgUrl": "",
-    "productCount": 3,
-    "cost": ""
-  }],
-  "cart": [{
-    "id": "1",
-    "userId": "sumCount",
-    "buyCount": 1
-  }]
+  "product": [
+    {
+      "id": 1,
+      "userId": 1,
+      "title": "Iphone10",
+      "imgUrl": "",
+      "productCount": 3,
+      "cost": ""
+    }
+  ],
+  "cart": [
+    {
+      "id": "1",
+      "userId": "sumCount",
+      "buyCount": 1
+    }
+  ]
 }

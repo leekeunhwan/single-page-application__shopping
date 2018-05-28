@@ -14,6 +14,7 @@
 
   <template id="product-list">
     <button class="product__login-btn">로그인</button>
+    <button class="product__join-btn">회원가입</button>
     <button class="product__cart-btn">장바구니</button>
     <button class="product__logout-btn">로그아웃</button>
     <div class="product-list"></div>
@@ -26,6 +27,18 @@
         <input name="username" type="text" class="login__username">
         <input name="password" type="password" class="login__password">
         <button type="submit">전송</button>
+      </form>
+    </div>
+  </template>
+
+  <template id="join">
+    <div class="join">
+      <h1 class="join__title">회원가입</h1>
+      <form class="join__form">
+        <input name="username" type="text" class="join__username" required>
+        <input name="password" type="password" class="join__password" required>
+        <button type="submit">전송</button>
+        <p class="join__alert"></p>
       </form>
     </div>
   </template>

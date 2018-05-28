@@ -1,5 +1,20 @@
 $main-color: skyblue;
-
 body {
   background-color: $main-color;
+}
+
+.product {
+  &__login-btn,
+  &__join-btn {
+    .root--authed & {
+      display: none;
+    }
+  }
+  &__logout-btn,
+  &__cart-btn {
+    display: none;
+    .root--authed & {
+      display: inline-block;
+    }
+  }
 }
