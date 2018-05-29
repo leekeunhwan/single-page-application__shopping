@@ -1,4 +1,4 @@
-$main-color: skyblue;
+$main-color: white;
 body {
   background-color: $main-color;
 }
@@ -17,4 +17,12 @@ body {
       display: inline-block;
     }
   }
+}
+
+.product__pre {
+  cursor: pointer;
+}
+
+img {
+  display: block;
 }

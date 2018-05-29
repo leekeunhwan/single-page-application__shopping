@@ -20,23 +20,79 @@
       "username": "dongwon",
       "hashedPassword": "$2a$10$0EXbppW1Mio1TLmaSbu/NekT4LVS202jpdVR1QFY7WiG.O.hgJaIW",
       "id": 4
+    },
+    {
+      "username": "test",
+      "hashedPassword": "$2a$10$XYkZm9RCvwRlBpUyqMynD.kEOUQ7CtqoxOnwPNW357Ep8P9yYVvNO",
+      "id": 5
     }
   ],
   "product": [
     {
       "id": 1,
       "userId": 1,
+      "title": "애플 맥북 프로 터치바 노트북 MPXX2KH/A (i5-7267U 33.7cm 13.3형 MAC OS 8G SSD256G)",
+      "imgUrl": "//thumbnail13.coupangcdn.com/thumbnails/remote/492x492ex/image/product/image/vendoritem/2017/12/27/3401800740/3c0c3f88-75fe-4b83-bbb5-9e61011e7d95.jpg",
+      "bodyImgUrl": "http://static1.e-himart.co.kr/contents/content/upload/goods//00/00/12/80/60/ecn/맥북프로-1.jpg",
+      "body": "맥북은 진정한 사랑입니다.\n하하하하하하하하\n왜 안되니...<br/>",
+      "productCount": "999",
+      "cost": "1856530"
+    },
+    {
+      "id": 2,
+      "userId": 1,
       "title": "Iphone10",
-      "imgUrl": "",
-      "productCount": 3,
-      "cost": ""
+      "imgUrl": "http://file2.nocutnews.co.kr/newsroom/image/2016/10/25/20161025143226417053.jpg",
+      "bodyImgUrl": "",
+      "body": "애플폰 짱짱이죠",
+      "productCount": "999",
+      "cost": "980000"
+    },
+    {
+      "title": "[Apple] ★BTS 행사상품★ MacBook Pro (MPTT2KH/A) 15형 2.9QC Touch Bar 512GB 그레이",
+      "userId": 1,
+      "imgUrl": "http://static2.e-himart.co.kr/contents/goods/00/00/12/80/55/0000128055__MPTT2KHA__M_450_450.jpg",
+      "productCount": "999",
+      "cost": "3490000",
+      "body": "good",
+      "bodyImgUrl": "http://static1.e-himart.co.kr/contents/content/upload/goods//00/00/12/80/60/ecn/맥북프로-1.jpg",
+      "id": 3
     }
   ],
   "cart": [
     {
-      "id": "1",
-      "userId": "sumCount",
-      "buyCount": 1
+      "userId": "1",
+      "productId": "1",
+      "amount": "1",
+      "color": "silver",
+      "id": 1
+    },
+    {
+      "userId": "1",
+      "productId": "1",
+      "amount": "1",
+      "color": "silver",
+      "id": 2
+    },
+    {
+      "id": 3
+    }
+  ],
+  "comment": [
+    {
+      "body": "구매평 수정하기",
+      "productId": "1",
+      "id": 1
+    },
+    {
+      "body": "asdf",
+      "productId": "3",
+      "id": 5
+    },
+    {
+      "body": "asdf",
+      "productId": "3",
+      "id": 6
     }
   ]
 }
