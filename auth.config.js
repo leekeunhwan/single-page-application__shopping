@@ -1,3 +1,9 @@
 module.exports = {
-  product: {}
+  products: {
+    write: 'ownerOnly'
+  },
+  comments: {
+    read: 'ifAuthed',
+    write: 'ownerOnly'
+  }
 };

@@ -1,3 +1,5 @@
+
+
 $main-color: white;
 body {
   background-color: $main-color;
@@ -14,15 +16,26 @@ body {
   &__cart-btn {
     display: none;
     .root--authed & {
-      display: inline-block;
+      display: block;
+    }
+  }
+  &__post-btn {
+    display: none;
+    .root--admin & {
+      display: block;
     }
   }
 }
 
+.navbar-menu {
+  font-weight: bold;
+}
+
 .product__pre {
   cursor: pointer;
+  width: 500px;
 }
 
 img {
-  display: block;
+  display: inline-block;
 }

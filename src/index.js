@@ -1,24 +1,34 @@
 import axios from 'axios';
+
 const productAPI = axios.create({
-  baseURL: process.env.API_URL
+  baseURL: process.env.API_URL,
 });
+const ADMIN_TOKEN = process.env.adminToken;
 
 const rootEl = document.querySelector('.root');
 
-
-function login(token) {
+// login
+async function login(token) {
   localStorage.setItem('token', token);
   productAPI.defaults.headers['Authorization'] = `Bearer ${token}`;
-  rootEl.classList.add('root--authed');
+  const res = await productAPI.get('/me');
+  if (res.data.id === 1) {
+    rootEl.classList.add('root--authed')
+    rootEl.classList.add('root--admin')
+  } else {
+    rootEl.classList.add('root--authed');
+  }
 }
 
+// logout
 function logout() {
   localStorage.removeItem('token');
   delete productAPI.defaults.headers['Authorization'];
   rootEl.classList.remove('root--authed');
+  rootEl.classList.remove('root--admin');
 }
 
-
+// template
 const templates = {
   login: document.querySelector('#login').content,
   join: document.querySelector('#join').content,
@@ -32,7 +42,7 @@ const templates = {
   cartProductFrom: document.querySelector('#cart-product-form').content
 }
 
-
+// render
 function render(fragment) {
   rootEl.textContent = "";
   rootEl.appendChild(fragment);
@@ -49,13 +59,13 @@ async function postProductPage() {
     e.preventDefault();
     const payload = {
       title: e.target.elements.title.value,
-      imgUrl: e.target.elements.preImg.value,
+      imgUrl: e.target.elements.imgUrl.value,
       productCount: e.target.elements.productCount.value,
       cost: e.target.elements.productCost.value,
       body: e.target.elements.body.value,
-      bodyImgUrl: e.target.elements.bodyImg.value
+      bodyImgUrl: e.target.elements.bodyImgUrl.value
     };
-    const res = await productAPI.post('/product', payload);
+    const res = await productAPI.post('products', payload);
     productPage(res.data.id);
   })
   render(fragment);
@@ -65,7 +75,7 @@ async function postProductPage() {
 
 // 관리자만 사용할 수 있는 기능 - 상품 수정하기
 async function editFormPage(productId) {
-  const res = await productAPI.get(`/product/${productId}`);
+  const res = await productAPI.get(`/products/${productId}`);
   const fragment = document.importNode(templates.editForm, true);
   fragment.querySelector('.edit-form__title').value = res.data.title;
   fragment.querySelector('.edit-form__body').value = res.data.body;
@@ -73,13 +83,10 @@ async function editFormPage(productId) {
   fragment.querySelector('.edit-form__count').value = res.data.productCount;
   fragment.querySelector('.edit-form__cost').value = res.data.cost;
   fragment.querySelector('.edit-form__bodyImgUrl').value = res.data.bodyImgUrl;
-  // 수정페이지에서 뒤로가기버튼 구현 , 뒤로가기를 누르면 수정하려던 원래본문으로 돌아간다
   fragment.querySelector('.edit-form__back-btn').addEventListener('click', e => {
     e.preventDefault();
     productPage(productId);
   })
-
-  // 수정페이지에서 수정 submit event 구현
   fragment.querySelector('.edit-form').addEventListener('submit', async e => {
     e.preventDefault();
     const payload = {
@@ -90,16 +97,24 @@ async function editFormPage(productId) {
       imgUrl: e.target.elements.imgUrl.value,
       bodyImgUrl: e.target.elements.bodyImgUrl.value
     };
-    const res = await productAPI.patch(`/product/${productId}`, payload);
+    const res = await productAPI.patch(`/products/${productId}`, payload);
     productPage(res.data.id);
   })
   render(fragment);
 }
 
-
+// 로그인 페이지
 async function loginPage() {
-  const res = await productAPI.get('users');
   const fragment = document.importNode(templates.login, true);
+  const pEl = fragment.querySelector('.login__alert');
+  fragment.querySelector('.login__join').addEventListener('click', e => {
+    e.preventDefault();
+    joinPage();
+  })
+  fragment.querySelector('.login__home-btn').addEventListener('click', e => {
+    e.preventDefault();
+    indexPage();
+  })
   const formEl = fragment.querySelector('.login__form');
   formEl.addEventListener('submit', async e => {
     const payload = {
@@ -107,32 +122,52 @@ async function loginPage() {
       password: e.target.elements.password.value
     };
     e.preventDefault();
-    const res = await productAPI.post('users/login', payload);
-    login(res.data.token);
-    indexPage();
+    const res = await productAPI.post('users/login', payload).then(async (response) => {
+      alert(`${payload.username}님 환영합니다.`)
+      await login(response.data.token);
+      indexPage();
+    }, (error) => {
+      if (error.response.status < 500 & error.response.status >= 400) {
+        pEl.textContent = '로그인 정보가 틀립니다. 다시 입력해주세요';
+      }
+    })
   })
   render(fragment);
 }
 
+// 회원가입 페이지
 async function joinPage() {
   const res = await productAPI.get('users');
   const fragment = document.importNode(templates.join, true);
+  fragment.querySelector('.join__home-btn').addEventListener('click', e => {
+    e.preventDefault();
+    indexPage();
+  })
   const formEl = fragment.querySelector('.join__form');
+  const pEl = fragment.querySelector('.join__alert');
   formEl.addEventListener('submit', async e => {
     const payload = {
       username: e.target.elements.username.value,
       password: e.target.elements.password.value
     };
     e.preventDefault();
-    const res = await productAPI.post('/users/register/', payload);
-    // 보낸 결과가 user의 username과 일치할 경우 .join__alert의 textContetn를 아이디가 중복되었습니다. 다시 입력해주십시요로 바꿔주기
-    loginPage();
+    const res = await productAPI.post('/users/register/', payload).then(((response) => {
+      alert(`가입해주셔서 감사합니다`)
+      loginPage();
+    }), (error) => {
+      if (error.response.status == 400) {
+        pEl.textContent = '아이디가 중복되었습니다. 다시 입력부탁드립니다.';
+      } else if (error.response.status > 500) {
+        pEl.textContent = '서버쪽 문제가 발생하였습니다. 잠시 후에 다시 시도해주십시요'
+      }
+    })
   })
   render(fragment);
 }
 
+// 상품을 보여주는 페이지
 async function productPage(productId) {
-  const res = await productAPI.get(`/product/${productId}`);
+  const res = await productAPI.get(`/products/${productId}`);
   const fragment = document.importNode(templates.productContent, true);
   let count = parseInt(fragment.querySelector('.product-content__count').value);
   let orderCount = fragment.querySelector('.product-content__count')
@@ -140,9 +175,6 @@ async function productPage(productId) {
   let cost = (res.data.cost) * 1;
   fragment.querySelector('.product-content__count-plus').addEventListener('click', () => {
     if (orderCount.value < res.data.productCount) {
-      console.log(orderCount.value)
-      console.log(res.data.productCount);
-      console.log(count)
       count++;
       orderCount.value = count;
       orderCost.textContent = orderCount.value * cost + "원";
@@ -171,7 +203,7 @@ async function productPage(productId) {
     editFormPage(productId);
   })
   fragment.querySelector('.product-content__delete-btn').addEventListener('click', async e => {
-    const res = await productAPI.delete(`product/${productId}`);
+    const res = await productAPI.delete(`products/${productId}`);
     indexPage();
   })
   fragment.querySelector('.product-content__cart-btn').addEventListener('click', async e => {
@@ -180,19 +212,19 @@ async function productPage(productId) {
   })
   if (localStorage.getItem('token')) {
     const commentsFragment = document.importNode(templates.comments, true);
-    const commentsRes = await productAPI.get(`/product/${productId}/comment`);
+    const commentsRes = await productAPI.get(`products/${productId}/comments?_expand=user`);
     commentsRes.data.forEach(comment => {
       const itemFragment = document.importNode(templates.commentItem, true);
       const authorEl = itemFragment.querySelector('.comment-item__author');
       const bodyEl = itemFragment.querySelector('.comment-item__body');
       const removeButtonEl = itemFragment.querySelector('.comment-item__remove-btn');
-      console.log(comment)
+      authorEl.textContent = comment.user.username;
       bodyEl.textContent = comment.body;
       commentsFragment.querySelector('.comments__list').appendChild(itemFragment);
       removeButtonEl.addEventListener('click', async e => {
         bodyEl.remove();
         removeButtonEl.remove();
-        const res = await productAPI.delete(`/comment/${comment.id}`)
+        const res = await productAPI.delete(`comments/${comment.id}`)
         productPage(productId);
       })
     })
@@ -202,7 +234,7 @@ async function productPage(productId) {
       const payload = {
         body: e.target.elements.body.value
       };
-      const res = await productAPI.post(`/product/${productId}/comment`, payload)
+      const res = await productAPI.post(`products/${productId}/comments`, payload)
       productPage(productId);
     })
     fragment.appendChild(commentsFragment);
@@ -210,10 +242,10 @@ async function productPage(productId) {
   render(fragment);
 }
 
+// 메인화면 페이지
 async function indexPage() {
-  const res = await productAPI.get('product?_expand=user');
+  const res = await productAPI.get('products?_expand=user');
   const listFragment = document.importNode(templates.productList, true);
-
   listFragment.querySelector('.product__post-btn').addEventListener('click', e => {
     postProductPage();
   })
@@ -224,11 +256,12 @@ async function indexPage() {
 
   listFragment.querySelector('.product__logout-btn').addEventListener('click', e => {
     logout();
+    alert('감사합니다! 즐거운 하루 되십시요!')
     indexPage();
   })
 
   listFragment.querySelector('.product__cart-btn').addEventListener('click', e => {
-    cartPage();
+    // cartPage();
   })
 
   listFragment.querySelector('.product__join-btn').addEventListener('click', e => {
@@ -236,7 +269,6 @@ async function indexPage() {
   })
   res.data.forEach(product => {
     const fragment = document.importNode(templates.productItem, true);
-    fragment.querySelector('.product-item__author').textContent = product.user.username;
     const preEl = fragment.querySelector('.product__pre')
     const imgEl = fragment.querySelector('.product__img');
     const costEl = fragment.querySelector('.product__cost');
@@ -253,9 +285,11 @@ async function indexPage() {
 }
 
 
-if (localStorage.getItem('token')) {
-  login(localStorage.getItem('token'));
+async function init() {
+  if (localStorage.getItem('token')) {
+    await login(localStorage.getItem('token'));
+  }
+  indexPage();
 }
 
-
-indexPage();
+init();

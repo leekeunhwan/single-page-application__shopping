@@ -6,12 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>중간 프로젝트 템플릿</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   <link rel="stylesheet" href="./index.scss">
 </head>
 
 <body>
   <div class="root"></div>
 
+
+  <!--로그인-->
   <template id="login">
     <div class="login">
       <h1 class="login__title">로그인</h1>
@@ -26,11 +29,15 @@
             <input name="password" type="password" class="login__password" required>
           </span>
         </label>
+        <p class="login__alert"></p>
         <button type="submit">전송</button>
+        <button class="login__join">회원가입</button>
+        <button class="login__home-btn">메인페이지로 가기</button>
       </form>
     </div>
   </template>
 
+  <!--회원가입-->
   <template id="join">
     <div class="join">
       <h1 class="join__title">회원가입</h1>
@@ -45,21 +52,31 @@
             <input name="password" type="password" class="join__password" required>
           </span>
         </label>
-        <button type="submit">전송</button>
         <p class="join__alert"></p>
+        <button type="submit">전송</button>
+        <button class="join__home-btn">메인페이지로 가기</button>
       </form>
     </div>
   </template>
 
+  <!--메인화면-->
   <template id="product-list">
-    <button class="product__login-btn">로그인</button>
-    <button class="product__join-btn">회원가입</button>
-    <button class="product__cart-btn">장바구니</button>
-    <button class="product__logout-btn">로그아웃</button>
-    <button class="product__post-btn">상품 등록</button>
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+
+      </div>
+      <div class="navbar-menu">
+        <a class="product__post-btn navbar-item">상품 등록</a>
+        <a class="product__cart-btn navbar-item navbar-end">장바구니</a>
+        <a class="product__logout-btn navbar-item">로그아웃</a>
+        <a class="product__login-btn navbar-item navbar-end">로그인</a>
+        <a class="product__join-btn navbar-item">회원가입</a>
+      </div>
+    </nav>
     <div class="product-list"></div>
   </template>
 
+  <!--메인화면에서 보여주는 상품들-->
   <template id="product-item">
     <p class="product-item__author"></p>
     <div class="product__pre">
@@ -69,6 +86,7 @@
     </div>
   </template>
 
+  <!--상품 상세 화면-->
   <template id="product-content">
     <div class="product-content">
       <button class="product-content__back-btn">뒤로가기</button>
@@ -81,11 +99,6 @@
       <input type="text" name="amount" class="product-content__count" value="1" size="5">
       <button class="product-content__count-plus">+</button>
       <button class="product-content__count-minus">-</button>
-      <span>색상 : </span>
-      <select name="color" class="product-content__color">
-        <option value="silver">실버</option>
-        <option value="space_gray">스페이스그레이</option>
-      </select>
       <button class="product-content__cart-btn">장바구니에 담기</button>
       <button class="product-content__order-btn">주문하기</button>
       <p class="product-content__body"></p>
@@ -93,6 +106,7 @@
     </div>
   </template>
 
+  <!--상품 상세 화면에 구매평-->
   <template id="comments">
     <div class="comments__list"></div>
     <form class="comments__form">
@@ -101,56 +115,16 @@
     </form>
   </template>
 
+  <!--상품 상세 화면에 구매평 내용 보여주는 것-->
   <template id="comments-item">
     <span class="comment-item__author"></span>
+    :
     <span class="comment-item__body"></span>
     <button class="comment-item__remove-btn">삭제</button>
     <br>
   </template>
 
-  <!--관리자만 쓸 수 있는 기능들-->
-  <template id="edit-form">
-    <form class="edit-form">
-      <h1 class="edit-form__header">수정 하기</h1>
-      <br> 상품명 :
-      <input name="title" type="text" class="edit-form__title" size="80">
-      <br> 상품이미지 :
-      <input name="imgUrl" type="text" class="edit-form__imgUrl">
-      <br> 상품설명 :
-      <textarea name="body" class="edit-form__body" cols="30" rows="10"></textarea>
-      <br> 상품수량 :
-      <input type="number" name="count" class="edit-form__count" min="1">
-      <br> 상품가격 :
-      <input type="number" name="cost" class="edit-form__cost" step="10">
-      <br> 상품설명이미지 :
-      <input name="bodyImgUrl" type="text" class="edit-form__bodyImgUrl">
-      <button class="edit-form__submit-btn">전송</button>
-      <button class="edit-form__back-btn">뒤로 가기</button>
-    </form>
-  </template>
-
-  <template id="post-product-form">
-    <form class="post-product-form">
-      <h1 class="post-product-form__header">새 글 쓰기</h1>
-      상품명 :
-      <input name="title" type="text" class="post-product-form__title">
-      <br> 상품이미지 :
-      <input type="file" name="preImg" class="post-product-form__preImg" accept="image/*" />
-      <br> 상품 수량 :
-      <input type="number" name="productCount" class="post-product-form__count" min="1">
-      <br> 상품 가격 :
-      <input type="number" name="productCost" class="post-product-form__cost" step="10">
-      <br> 상품설명 :
-      <textarea name="body" class="post-product-form__body"></textarea>
-      <br> 상품설명이미지 :
-      <input type="file" name="bodyImg" class="post-product-form__bodyImg" accept="image/*" multiple />
-      <br>
-      <button class="post-product-form__submit-btn">전송</button>
-      <button class="post-product-form__back-btn">뒤로가기</button>
-    </form>
-  </template>
-
-
+  <!--장바구니-->
   <template id="cart-product-form">
     <form class="cart-product-form">
       <h1 class="cart-product-form__header">장바구니</h1>
@@ -168,6 +142,48 @@
     </form>
   </template>
 
+  <!--관리자만 쓸 수 있는 기능들 : 상품 수정-->
+  <template id="edit-form">
+    <form class="edit-form">
+      <h1 class="edit-form__header">상품 수정하기</h1>
+      <br> 상품명 :
+      <input name="title" type="text" class="edit-form__title" size="80">
+      <br> 상품이미지 :
+      <input name="imgUrl" type="text" class="edit-form__imgUrl">
+      <br> 상품설명 :
+      <textarea name="body" class="edit-form__body" cols="30" rows="10"></textarea>
+      <br> 상품수량 :
+      <input type="number" name="count" class="edit-form__count" min="1">
+      <br> 상품가격 :
+      <input type="number" name="cost" class="edit-form__cost" step="10">
+      <br> 상품설명이미지 :
+      <input name="bodyImgUrl" type="text" class="edit-form__bodyImgUrl">
+      <button class="edit-form__submit-btn">전송</button>
+      <button class="edit-form__back-btn">뒤로 가기</button>
+    </form>
+  </template>
+
+  <!--관리자만 쓸 수 있는 기능들 : 상품 등록-->
+  <template id="post-product-form">
+    <form class="post-product-form">
+      <h1 class="post-product-form__header">상품 등록하기</h1>
+      상품명 :
+      <input name="title" type="text" class="post-product-form__title">
+      <br> 상품이미지 (url입력) :
+      <input name="imgUrl" type="text" class="post-product-form__imgUrl" size="40">
+      <br> 상품 수량 :
+      <input type="number" name="productCount" class="post-product-form__count" min="1">
+      <br> 상품 가격 :
+      <input type="number" name="productCost" class="post-product-form__cost" step="10">
+      <br> 상품설명 :
+      <textarea name="body" class="post-product-form__body"></textarea>
+      <br> 상품설명이미지 (url입력) :
+      <input name="bodyImgUrl" type="text" class="post-product-form__bodyImgUrl" size="40">
+      <br>
+      <button class="post-product-form__submit-btn">전송</button>
+      <button class="post-product-form__back-btn">뒤로가기</button>
+    </form>
+  </template>
 
   <script src="./index.js"></script>
 </body>
