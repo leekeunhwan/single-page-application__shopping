@@ -6,7 +6,7 @@ const productAPI = axios.create({
 
 const rootEl = document.querySelector('.root');
 
-// 숫자 콤마 표시 위한 것
+// 숫자 콤마 표시해주기위해 함수 작성
 function commas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -184,11 +184,12 @@ async function cartPage() {
     alert('감사합니다! 즐거운 하루 되십시요!');
     indexPage();
   })
-  fragment.querySelector('.cart-product-item__cancel-btn').addEventListener('click', async e => {
-    const res = await productAPI.delete(`carts/`)
-    alert('장바구니가 비었습니다.')
-    indexPage()
-  })
+  // 장바구니 초기화 버튼 구현 - 보류
+  // fragment.querySelector('.cart-product-item__cancel-btn').addEventListener('click', async e => {
+  //   const res = await productAPI.delete(`carts/`, {params : {}})
+  //   alert('장바구니가 비었습니다.')
+  //   indexPage()
+  // })
   res.data.forEach(cart => {
     const cartFragment = document.importNode(templates.cartProductForm, true)
     cartFragment.querySelector('.cart-product-item__img').src = cart.product.imgUrl
@@ -230,14 +231,14 @@ async function productPage(productId) {
     if (orderCount.value < res.data.productCount) {
       count++;
       orderCount.value = count;
-      orderCost.textContent = orderCount.value * cost + "원";
+      orderCost.textContent = commas(orderCount.value * cost) + "원";
     }
   })
   fragment.querySelector('.product-content__count-minus').addEventListener('click', () => {
     if (orderCount.value >= 1) {
       count--;
       orderCount.value = count;
-      orderCost.textContent = orderCount.value * cost + "원";
+      orderCost.textContent = commas(orderCount.value * cost) + "원";
       if (orderCount.value == 0) {
         orderCost.textContent = "Sold Out";
       }
@@ -245,7 +246,7 @@ async function productPage(productId) {
   })
   fragment.querySelector('.product-content__img').src = res.data.imgUrl;
   fragment.querySelector('.product-content__title').textContent = res.data.title;
-  fragment.querySelector('.product-content__cost').textContent = cost + "원";
+  fragment.querySelector('.product-content__cost').textContent = commas(cost) + "원";
   fragment.querySelector('.product-content__body').textContent = res.data.body;
   fragment.querySelector('.product-content__bodyImg').src = res.data.bodyImgUrl;
   fragment.querySelector('.product-content__cart-btn').addEventListener('click', async e => {
@@ -287,12 +288,13 @@ async function productPage(productId) {
     commentsRes.data.forEach(comment => {
       const itemFragment = document.importNode(templates.commentItem, true);
       const authorEl = itemFragment.querySelector('.comment-item__author');
-      const bodyEl = itemFragment.querySelector('.comment-item__body');
+      let bodyEl = itemFragment.querySelector('.comment-item__body');
       const removeButtonEl = itemFragment.querySelector('.comment-item__remove-btn');
       authorEl.textContent = comment.user.username;
       bodyEl.textContent = comment.body;
       commentsFragment.querySelector('.comments__list').appendChild(itemFragment);
       removeButtonEl.addEventListener('click', async e => {
+        authorEl.remove();
         bodyEl.remove();
         removeButtonEl.remove();
         const res = await productAPI.delete(`comments/${comment.id}`)
@@ -347,7 +349,7 @@ async function indexPage() {
     const costEl = fragment.querySelector('.product__cost');
     const titleEl = fragment.querySelector('.product__title');
     imgEl.src = product.imgUrl;
-    costEl.textContent = product.cost + "원";
+    costEl.textContent = commas(product.cost) + "원";
     titleEl.textContent = product.title;
     preEl.addEventListener('click', e => {
       productPage(product.id);

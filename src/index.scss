@@ -65,6 +65,13 @@ body {
   }
 }
 
+.comments__edit-body-input {
+  display: none;
+  .show & {
+    display: block;
+  }
+}
+
 img {
   display: inline-block;
 }

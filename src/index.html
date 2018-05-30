@@ -89,7 +89,8 @@
   <template id="product-content">
     <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
       <div class="navbar-menu">
-        <a class="product-content__back-btn navbar-item navbar-start">뒤로가기</a>
+        <a class="product-content__back-btn navbar-item">뒤로가기</a>
+        <!-- <a class="navbar-item navbar-start is-active">메인페이지 > 상품페이지</a> -->
         <a class="product-content__edit-btn navbar-item navbar-end">수정하기</a>
         <a class="product-content__delete-btn navbar-item">삭제하기</a>
         <a class="product__cart-btn navbar-item navbar-end">장바구니</a>
@@ -130,6 +131,7 @@
     <span class="comment-item__author"></span>
     :
     <span class="comment-item__body"></span>
+    <input name="body" type="text" class="comments__edit-body-input">
     <button class="comment-item__remove-btn">삭제</button>
     <br>
   </template>
@@ -142,8 +144,8 @@
       <p class="cart-product__sum-cost"></p>
       <button class="cart-product-item__back-btn">메인페이지</button>
       <button class="cart-product__order">주문하기</button>
-      <button class="cart-product-item__cancel-btn">장바구니 초기화</button>
       <button class="product__logout-btn">로그아웃</button>
+      <!-- <button class="cart-product-item__cancel-btn">장바구니 기화</button> -->
     </div>
   </template>
 
@@ -201,6 +203,12 @@
       <button class="post-product-form__submit-btn">전송</button>
       <button class="post-product-form__back-btn">뒤로가기</button>
     </form>
+  </template>
+
+  <!--상품 결제 페이지-->
+  <template id="product-billing">
+    <h1 class="product-billing__header">결제 페이지</h1>
+    <div class="product-billing__list"></div>
   </template>
 
   <script src="./index.js"></script>
