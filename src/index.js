@@ -3,9 +3,14 @@ import axios from 'axios';
 const productAPI = axios.create({
   baseURL: process.env.API_URL,
 });
-const ADMIN_TOKEN = process.env.adminToken;
 
 const rootEl = document.querySelector('.root');
+
+// 숫자 콤마 표시 위한 것
+function commas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 
 // login
 async function login(token) {
@@ -39,7 +44,8 @@ const templates = {
   commentItem: document.querySelector('#comments-item').content,
   editForm: document.querySelector('#edit-form').content,
   postProductForm: document.querySelector('#post-product-form').content,
-  cartProductFrom: document.querySelector('#cart-product-form').content
+  cartProduct: document.querySelector('#cart-product').content,
+  cartProductForm: document.querySelector('#cart-product-item').content
 }
 
 // render
@@ -70,8 +76,6 @@ async function postProductPage() {
   })
   render(fragment);
 }
-
-
 
 // 관리자만 사용할 수 있는 기능 - 상품 수정하기
 async function editFormPage(productId) {
@@ -165,14 +169,63 @@ async function joinPage() {
   render(fragment);
 }
 
+// 장바구니를 보여주는 페이지
+async function cartPage() {
+  const res = await productAPI.get(`/carts?_expand=product`)
+  const fragment = document.importNode(templates.cartProduct, true)
+  const pEl = fragment.querySelector('.cart-product__sum-cost')
+  let sum = [];
+  let sumCost;
+  fragment.querySelector('.cart-product-item__back-btn').addEventListener('click', e => {
+    indexPage()
+  })
+  fragment.querySelector('.product__logout-btn').addEventListener('click', e => {
+    logout();
+    alert('감사합니다! 즐거운 하루 되십시요!');
+    indexPage();
+  })
+  fragment.querySelector('.cart-product-item__cancel-btn').addEventListener('click', async e => {
+    const res = await productAPI.delete(`carts/`)
+    alert('장바구니가 비었습니다.')
+    indexPage()
+  })
+  res.data.forEach(cart => {
+    const cartFragment = document.importNode(templates.cartProductForm, true)
+    cartFragment.querySelector('.cart-product-item__img').src = cart.product.imgUrl
+    cartFragment.querySelector('.cart-product-item__title').textContent = cart.product.title
+    cartFragment.querySelector('.cart-product-item__count').textContent = cart.amount
+    cartFragment.querySelector('.cart-product-item__product-cost').textContent = commas(cart.product.cost * cart.amount) + "원"
+    sumCost = cart.product.cost * cart.amount
+    sum.push(sumCost);
+    sumCost = 0;
+    cartFragment.querySelector('.cart-product-item__delete-btn').addEventListener('click', async e => {
+      const res = await productAPI.delete(`carts/${cart.id}`)
+      const resCart = await productAPI.get('carts')
+      if (resCart.data.length == 0) {
+        alert('장바구니가 비었습니다.')
+        indexPage()
+      } else {
+        cartPage(res.data.id);
+      }
+    })
+    for (let i = 0; i < sum.length; i++) {
+      sumCost += sum[i]
+    }
+    pEl.textContent = `총 금액 : ${commas(sumCost)}원`;
+    fragment.appendChild(cartFragment);
+  })
+  render(fragment);
+}
+
 // 상품을 보여주는 페이지
 async function productPage(productId) {
   const res = await productAPI.get(`/products/${productId}`);
   const fragment = document.importNode(templates.productContent, true);
   let count = parseInt(fragment.querySelector('.product-content__count').value);
-  let orderCount = fragment.querySelector('.product-content__count')
-  let orderCost = fragment.querySelector('.product-content__cost')
-  let cost = (res.data.cost) * 1;
+  const orderCount = fragment.querySelector('.product-content__count')
+  const orderCost = fragment.querySelector('.product-content__cost')
+  const formEl = fragment.querySelector('.product-content-form')
+  const cost = (res.data.cost) * 1;
   fragment.querySelector('.product-content__count-plus').addEventListener('click', () => {
     if (orderCount.value < res.data.productCount) {
       count++;
@@ -195,20 +248,38 @@ async function productPage(productId) {
   fragment.querySelector('.product-content__cost').textContent = cost + "원";
   fragment.querySelector('.product-content__body').textContent = res.data.body;
   fragment.querySelector('.product-content__bodyImg').src = res.data.bodyImgUrl;
+  fragment.querySelector('.product-content__cart-btn').addEventListener('click', async e => {
+    e.preventDefault();
+    if (localStorage.getItem('token')) {
+      const payload = {
+        amount: formEl.elements.amount.value
+      }
+      const res = await productAPI.post(`products/${productId}/carts`, payload);
+      cartPage();
+    } else {
+      alert('로그인을 하셔야 이용하실 수 있습니다.')
+      loginPage();
+    }
+  })
   fragment.querySelector('.product-content__back-btn').addEventListener('click', async e => {
     indexPage();
   })
-
+  fragment.querySelector('.product__post-btn').addEventListener('click', e => {
+    postProductPage();
+  })
+  fragment.querySelector('.product__cart-btn').addEventListener('click', e => {
+    cartPage();
+  })
   fragment.querySelector('.product-content__edit-btn').addEventListener('click', () => {
     editFormPage(productId);
   })
   fragment.querySelector('.product-content__delete-btn').addEventListener('click', async e => {
-    const res = await productAPI.delete(`products/${productId}`);
-    indexPage();
-  })
-  fragment.querySelector('.product-content__cart-btn').addEventListener('click', async e => {
-    const res = await productAPI.post(`cart/`);
-    indexPage();
+    if (confirm("정말 삭제하시겠습니까?")) {
+      const res = await productAPI.delete(`products/${productId}`);
+      indexPage();
+    } else {
+      productPage(productId);
+    }
   })
   if (localStorage.getItem('token')) {
     const commentsFragment = document.importNode(templates.comments, true);
@@ -249,7 +320,9 @@ async function indexPage() {
   listFragment.querySelector('.product__post-btn').addEventListener('click', e => {
     postProductPage();
   })
-
+  listFragment.querySelector('.navbar-brand').addEventListener('click', e => {
+    indexPage();
+  })
   listFragment.querySelector('.product__login-btn').addEventListener('click', e => {
     loginPage();
   })
@@ -261,7 +334,7 @@ async function indexPage() {
   })
 
   listFragment.querySelector('.product__cart-btn').addEventListener('click', e => {
-    // cartPage();
+    cartPage();
   })
 
   listFragment.querySelector('.product__join-btn').addEventListener('click', e => {

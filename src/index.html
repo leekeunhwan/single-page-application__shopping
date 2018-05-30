@@ -61,13 +61,13 @@
 
   <!--메인화면-->
   <template id="product-list">
-    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-
-      </div>
+    <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
+      <a class="navbar-brand">
+        <img src="http://www.iqjersey.com/wp-content/uploads/2017/07/MacBook-Logo@2x.png">
+      </a>
       <div class="navbar-menu">
-        <a class="product__post-btn navbar-item">상품 등록</a>
         <a class="product__cart-btn navbar-item navbar-end">장바구니</a>
+        <a class="product__post-btn navbar-item navbar-end">상품 등록</a>
         <a class="product__logout-btn navbar-item">로그아웃</a>
         <a class="product__login-btn navbar-item navbar-end">로그인</a>
         <a class="product__join-btn navbar-item">회원가입</a>
@@ -78,7 +78,6 @@
 
   <!--메인화면에서 보여주는 상품들-->
   <template id="product-item">
-    <p class="product-item__author"></p>
     <div class="product__pre">
       <img class="product__img"></img>
       <p class="product__cost"></p>
@@ -88,15 +87,26 @@
 
   <!--상품 상세 화면-->
   <template id="product-content">
+    <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
+      <div class="navbar-menu">
+        <a class="product-content__back-btn navbar-item navbar-start">뒤로가기</a>
+        <a class="product-content__edit-btn navbar-item navbar-end">수정하기</a>
+        <a class="product-content__delete-btn navbar-item">삭제하기</a>
+        <a class="product__cart-btn navbar-item navbar-end">장바구니</a>
+        <a class="product__post-btn navbar-item">상품 등록</a>
+        <a class="product__logout-btn navbar-item">로그아웃</a>
+        <a class="product__login-btn navbar-item navbar-end">로그인</a>
+        <a class="product__join-btn navbar-item">회원가입</a>
+      </div>
+    </nav>
     <div class="product-content">
-      <button class="product-content__back-btn">뒤로가기</button>
-      <button class="product-content__edit-btn">수정하기</button>
-      <button class="product-content__delete-btn">삭제하기</button>
-      <img class="product-content__img"></img>
-      <p class="product-content__title"></p>
-      <p class="product-content__cost"></p>
-      <span>수량 : </span>
-      <input type="text" name="amount" class="product-content__count" value="1" size="5">
+      <form class="product-content-form">
+        <img class="product-content__img"></img>
+        <p class="product-content__title"></p>
+        <p class="product-content__cost"></p>
+        <span>수량 : </span>
+        <input type="text" name="amount" class="product-content__count" value="1" size="5">
+      </form>
       <button class="product-content__count-plus">+</button>
       <button class="product-content__count-minus">-</button>
       <button class="product-content__cart-btn">장바구니에 담기</button>
@@ -125,21 +135,29 @@
   </template>
 
   <!--장바구니-->
-  <template id="cart-product-form">
-    <form class="cart-product-form">
-      <h1 class="cart-product-form__header">장바구니</h1>
-      상품명 :
-      <span class="cart-product-form__title"></span>
-      색상 :
-      <span class="cart-product-form__color"></span>
-      수량 :
-      <span class="cart-product-form__count"></span>
-      총 가격 :
-      <span class="cart-product-form__sum-cost"></span>
-      <button class="cart-product-form__back-btn">뒤로가기</button>
-      <button class="cart-product-form__order-btn">주문하기</button>
-      <button class="cart-product-form__cancel-btn">삭제하기</button>
+
+  <template id="cart-product">
+    <h1 class="cart-product-item__header">장바구니</h1>
+    <div class="cart-product__list">
+      <p class="cart-product__sum-cost"></p>
+      <button class="cart-product-item__back-btn">메인페이지</button>
+      <button class="cart-product__order">주문하기</button>
+      <button class="cart-product-item__cancel-btn">장바구니 초기화</button>
+      <button class="product__logout-btn">로그아웃</button>
+    </div>
+  </template>
+
+  <template id="cart-product-item">
+    <form class="cart-product-item">
+      <img class="cart-product-item__img">
+      <br>상품명 :
+      <span class="cart-product-item__title"></span>
+      <br>수량 :
+      <span class="cart-product-item__count"></span>
+      <br>가격 :
+      <span class="cart-product-item__product-cost"></span>
     </form>
+    <button class="cart-product-item__delete-btn">삭제하기</button>
   </template>
 
   <!--관리자만 쓸 수 있는 기능들 : 상품 수정-->
