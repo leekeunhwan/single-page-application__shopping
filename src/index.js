@@ -6,6 +6,18 @@ const productAPI = axios.create({
 
 const rootEl = document.querySelector('.root');
 
+// 이메일 유효성 검사 함수
+function emailCheck() {
+  const email = document.getElementsByClassName("product-billing-addInfo_email").value;
+  let exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+  if (exptext.test(email) == false) {
+    //이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우			
+    alert("이 메일형식이 올바르지 않습니다.");
+    document.addjoin.email.focus();
+    return false;
+  }
+}
+
 // 숫자 콤마 표시해주기위해 함수 작성
 function commas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -45,7 +57,10 @@ const templates = {
   editForm: document.querySelector('#edit-form').content,
   postProductForm: document.querySelector('#post-product-form').content,
   cartProduct: document.querySelector('#cart-product').content,
-  cartProductForm: document.querySelector('#cart-product-item').content
+  cartProductForm: document.querySelector('#cart-product-item').content,
+  productBilling: document.querySelector('#product-billing').content,
+  productBillingItem: document.querySelector('#product-billing-item').content,
+  productBillingInfo: document.querySelector('#product-billing-addInfo').content
 }
 
 // render
@@ -172,48 +187,137 @@ async function joinPage() {
 // 장바구니를 보여주는 페이지
 async function cartPage() {
   const res = await productAPI.get(`/carts?_expand=product`)
-  const fragment = document.importNode(templates.cartProduct, true)
-  const pEl = fragment.querySelector('.cart-product__sum-cost')
+  if (res.data[0] == null) {
+    alert('장바구니가 비었습니다.')
+    indexPage();
+  } else {
+    // const resMe = await productAPI.get(`/me`)
+    // for (let i = 0; i < res.data.length; i++) {
+    //   if (res.data[i].userId === resMe.user.id) {
+    //     console.log(123);
+    //   }
+    // }
+    const fragment = document.importNode(templates.cartProduct, true)
+    const pEl = fragment.querySelector('.cart-product__sum-cost')
+    let sum = [];
+    let sumCost;
+    fragment.querySelector('.cart-product-item__main-btn').addEventListener('click', e => {
+      indexPage()
+    })
+    fragment.querySelector('.cart-product-item__back-btn').addEventListener('click', e => {
+      productPage(res.data[res.data.length - 1].productId);
+    })
+    fragment.querySelector('.product__logout-btn').addEventListener('click', e => {
+      logout();
+      alert('감사합니다! 즐거운 하루 되십시요!');
+      indexPage();
+    })
+    fragment.querySelector('.cart-product__order').addEventListener('click', async e => {
+      // 장바구니 -> 결제페이지로 넘기는 것
+      orderPage();
+    })
+    // 장바구니 초기화 버튼 구현 - 보류
+    // fragment.querySelector('.cart-product-item__cancel-btn').addEventListener('click', async e => {
+    //   const res = await productAPI.delete(`carts/`, {params : {}})
+    //   alert('장바구니가 비었습니다.')
+    //   indexPage()
+    // })
+    res.data.forEach(cart => {
+      const cartFragment = document.importNode(templates.cartProductForm, true)
+      cartFragment.querySelector('.cart-product-item__img').src = cart.product.imgUrl
+      cartFragment.querySelector('.cart-product-item__title').textContent = cart.product.title
+      cartFragment.querySelector('.cart-product-item__count').textContent = cart.amount
+      cartFragment.querySelector('.cart-product-item__product-cost').textContent = commas(cart.product.cost * cart.amount) + "원"
+      sumCost = cart.product.cost * cart.amount
+      sum.push(sumCost);
+      sumCost = 0;
+      cartFragment.querySelector('.cart-product-item__delete-btn').addEventListener('click', async e => {
+        const res = await productAPI.delete(`carts/${cart.id}`)
+        const resCart = await productAPI.get('carts')
+        if (resCart.data.length == 0) {
+          alert('장바구니가 비었습니다.')
+          indexPage()
+        } else {
+          cartPage(res.data.id);
+        }
+      })
+      for (let i = 0; i < sum.length; i++) {
+        sumCost += sum[i]
+      }
+      pEl.textContent = `결제 예상 금액 : ${commas(sumCost)}원`;
+      fragment.querySelector('.cart-product__list').appendChild(cartFragment);
+    })
+    render(fragment);
+  }
+}
+
+// 결제 페이지
+async function orderPage() {
+  const res = await productAPI.get(`/carts?_expand=product`)
+  const fragment = document.importNode(templates.productBilling, true);
+  const pEl = fragment.querySelector('.product-billing__sum-cost');
   let sum = [];
   let sumCost;
-  fragment.querySelector('.cart-product-item__back-btn').addEventListener('click', e => {
+  fragment.querySelector('.product-billing__main-btn').addEventListener('click', e => {
     indexPage()
   })
-  fragment.querySelector('.product__logout-btn').addEventListener('click', e => {
+  fragment.querySelector('.product-billing__back-btn').addEventListener('click', e => {
+    productPage(res.data[res.data.length - 1].productId);
+  })
+  fragment.querySelector('.product-billing__logout-btn').addEventListener('click', e => {
     logout();
     alert('감사합니다! 즐거운 하루 되십시요!');
     indexPage();
   })
-  // 장바구니 초기화 버튼 구현 - 보류
-  // fragment.querySelector('.cart-product-item__cancel-btn').addEventListener('click', async e => {
-  //   const res = await productAPI.delete(`carts/`, {params : {}})
-  //   alert('장바구니가 비었습니다.')
-  //   indexPage()
-  // })
-  res.data.forEach(cart => {
-    const cartFragment = document.importNode(templates.cartProductForm, true)
-    cartFragment.querySelector('.cart-product-item__img').src = cart.product.imgUrl
-    cartFragment.querySelector('.cart-product-item__title').textContent = cart.product.title
-    cartFragment.querySelector('.cart-product-item__count').textContent = cart.amount
-    cartFragment.querySelector('.cart-product-item__product-cost').textContent = commas(cart.product.cost * cart.amount) + "원"
-    sumCost = cart.product.cost * cart.amount
+  const infoFragment = document.importNode(templates.productBillingInfo, true);
+  fragment.querySelector('.product-billing__info').appendChild(infoFragment);
+  res.data.forEach(bill => {
+    const itemFragment = document.importNode(templates.productBillingItem, true);
+    itemFragment.querySelector('.product-billing-item__img').src = bill.product.imgUrl
+    itemFragment.querySelector('.product-billing-item__title').textContent = bill.product.title
+    itemFragment.querySelector('.product-billing-item__product-count').textContent = bill.amount + "개"
+    itemFragment.querySelector('.product-billing-item__product-cost').textContent = commas(bill.product.cost * bill.amount) + "원"
+    sumCost = bill.product.cost * bill.amount;
     sum.push(sumCost);
     sumCost = 0;
-    cartFragment.querySelector('.cart-product-item__delete-btn').addEventListener('click', async e => {
-      const res = await productAPI.delete(`carts/${cart.id}`)
-      const resCart = await productAPI.get('carts')
-      if (resCart.data.length == 0) {
-        alert('장바구니가 비었습니다.')
-        indexPage()
-      } else {
-        cartPage(res.data.id);
-      }
-    })
     for (let i = 0; i < sum.length; i++) {
       sumCost += sum[i]
     }
-    pEl.textContent = `총 금액 : ${commas(sumCost)}원`;
-    fragment.appendChild(cartFragment);
+    pEl.textContent = `결제 예상 금액 : ${commas(sumCost)}원`;
+    fragment.querySelector('.product-billing__list').appendChild(itemFragment);
+  })
+  fragment.querySelector('.product-billing-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (confirm('결제를 진행하시겠습니까?')) {
+      try {
+        // const resCart = await productAPI.get('carts')
+        // console.log(resCart.data);
+        // for (let i = 0; i < resCart.data.length; i++) {
+        //   const res = await productAPI.delete(`carts`)
+        // }
+
+
+        for (const bill of res.data) {
+          const payload = {
+            title: bill.product.title,
+            amount: bill.amount,
+            name: e.target.elements.name.value,
+            cellPhone: e.target.elements.cellPhone.value,
+            address: e.target.elements.address.value,
+            email: e.target.elements.email.value,
+            requestText: e.target.elements.requestText.value,
+          }
+          const res = await productAPI.post(`orders`, payload)
+        }
+        alert('결제를 완료하였습니다.')
+        indexPage();
+      } catch (e) {
+        alert('결제중에 문제가 생겼습니다. 잠시 후에 다시 이용부탁드립니다.')
+        return
+      }
+    } else {
+      return
+    }
   })
   render(fragment);
 }
@@ -231,22 +335,22 @@ async function productPage(productId) {
     if (orderCount.value < res.data.productCount) {
       count++;
       orderCount.value = count;
-      orderCost.textContent = commas(orderCount.value * cost) + "원";
+      orderCost.textContent = `결제 예상 금액 ${commas(orderCount.value * cost)}원`;
     }
   })
   fragment.querySelector('.product-content__count-minus').addEventListener('click', () => {
     if (orderCount.value >= 1) {
       count--;
       orderCount.value = count;
-      orderCost.textContent = commas(orderCount.value * cost) + "원";
+      orderCost.textContent = `결제 예상 금액 ${commas(orderCount.value * cost)}원`;
       if (orderCount.value == 0) {
-        orderCost.textContent = "Sold Out";
+        orderCost.textContent = "최소 구매 수량은 1개입니다";
       }
     }
   })
   fragment.querySelector('.product-content__img').src = res.data.imgUrl;
   fragment.querySelector('.product-content__title').textContent = res.data.title;
-  fragment.querySelector('.product-content__cost').textContent = commas(cost) + "원";
+  fragment.querySelector('.product-content__cost').textContent = `결제 예상 금액 ${commas(cost)}원`;
   fragment.querySelector('.product-content__body').textContent = res.data.body;
   fragment.querySelector('.product-content__bodyImg').src = res.data.bodyImgUrl;
   fragment.querySelector('.product-content__cart-btn').addEventListener('click', async e => {
@@ -255,15 +359,52 @@ async function productPage(productId) {
       const payload = {
         amount: formEl.elements.amount.value
       }
+      const resa = await productAPI.get(`/products/${productId}`);
+      if (parseInt(payload.amount) > parseInt(resa.data.productCount)) {
+        alert('구매를 희망하시는 수량이 재고를 초과하였습니다.');
+        return
+      } else if (parseInt(payload.amount) == 0) {
+        return
+      }
       const res = await productAPI.post(`products/${productId}/carts`, payload);
-      cartPage();
+      if (confirm('장바구니로 이동하시겠습니까?')) {
+        cartPage();
+      } else {
+        return
+      }
     } else {
       alert('로그인을 하셔야 이용하실 수 있습니다.')
       loginPage();
     }
   })
-  fragment.querySelector('.product-content__back-btn').addEventListener('click', async e => {
+  fragment.querySelector('.product-content__order-btn').addEventListener('click', async e => {
+    e.preventDefault();
+    if (localStorage.getItem('token')) {
+      const payload = {
+        amount: formEl.elements.amount.value
+      }
+      const resa = await productAPI.get(`/products/${productId}`);
+      if (parseInt(payload.amount) > parseInt(resa.data.productCount)) {
+        alert('구매를 희망하시는 수량이 재고를 초과하였습니다.');
+        return
+      } else if (parseInt(payload.amount) == 0) {
+        return
+      }
+      const res = await productAPI.post(`products/${productId}/carts`, payload);
+      orderPage();
+    } else {
+      alert('로그인을 하셔야 이용하실 수 있습니다.')
+      loginPage();
+    }
+  })
+  fragment.querySelector('.product-content__back-btn').addEventListener('click', e => {
     indexPage();
+  })
+  fragment.querySelector('.product__login-btn').addEventListener('click', e => {
+    loginPage();
+  })
+  fragment.querySelector('.product__join-btn').addEventListener('click', e => {
+    joinPage();
   })
   fragment.querySelector('.product__post-btn').addEventListener('click', e => {
     postProductPage();
@@ -271,6 +412,12 @@ async function productPage(productId) {
   fragment.querySelector('.product__cart-btn').addEventListener('click', e => {
     cartPage();
   })
+  fragment.querySelector('.product__logout-btn').addEventListener('click', () => {
+    logout();
+    alert('이용해 주셔서 감사합니다! 즐거운 하루 되십시요!')
+    indexPage();
+  })
+
   fragment.querySelector('.product-content__edit-btn').addEventListener('click', () => {
     editFormPage(productId);
   })
@@ -290,14 +437,17 @@ async function productPage(productId) {
       const authorEl = itemFragment.querySelector('.comment-item__author');
       let bodyEl = itemFragment.querySelector('.comment-item__body');
       const removeButtonEl = itemFragment.querySelector('.comment-item__remove-btn');
-      authorEl.textContent = comment.user.username;
+      authorEl.textContent = comment.user.username + " :";
       bodyEl.textContent = comment.body;
       commentsFragment.querySelector('.comments__list').appendChild(itemFragment);
       removeButtonEl.addEventListener('click', async e => {
-        authorEl.remove();
-        bodyEl.remove();
-        removeButtonEl.remove();
-        const res = await productAPI.delete(`comments/${comment.id}`)
+        const res = await productAPI.delete(`comments/${comment.id}`).then((response) => {
+          authorEl.remove();
+          bodyEl.remove();
+          removeButtonEl.remove();
+        }, (error) => {
+          return
+        })
         productPage(productId);
       })
     })
@@ -322,7 +472,7 @@ async function indexPage() {
   listFragment.querySelector('.product__post-btn').addEventListener('click', e => {
     postProductPage();
   })
-  listFragment.querySelector('.navbar-brand').addEventListener('click', e => {
+  listFragment.querySelector('.brand-logo').addEventListener('click', e => {
     indexPage();
   })
   listFragment.querySelector('.product__login-btn').addEventListener('click', e => {
@@ -331,7 +481,7 @@ async function indexPage() {
 
   listFragment.querySelector('.product__logout-btn').addEventListener('click', e => {
     logout();
-    alert('감사합니다! 즐거운 하루 되십시요!')
+    alert('이용해 주셔서 감사합니다! 즐거운 하루 되십시요!')
     indexPage();
   })
 
@@ -349,7 +499,7 @@ async function indexPage() {
     const costEl = fragment.querySelector('.product__cost');
     const titleEl = fragment.querySelector('.product__title');
     imgEl.src = product.imgUrl;
-    costEl.textContent = commas(product.cost) + "원";
+    costEl.textContent = `판매가 ${commas(product.cost)}원`;
     titleEl.textContent = product.title;
     preEl.addEventListener('click', e => {
       productPage(product.id);

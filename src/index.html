@@ -6,112 +6,210 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>중간 프로젝트 템플릿</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
   <link rel="stylesheet" href="./index.scss">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 </head>
 
 <body>
   <div class="root"></div>
 
-
   <!--로그인-->
   <template id="login">
-    <div class="login">
-      <h1 class="login__title">로그인</h1>
-      <form class="login__form">
-        <label>
-          <span>ID :
-            <input name="username" type="text" class="login__username" required>
-          </span>
-        </label>
-        <label>
-          <span>PW :
-            <input name="password" type="password" class="login__password" required>
-          </span>
-        </label>
+    <div class="login row">
+      <h1 class="login__title">Login</h1>
+      <form class="login__form col s12">
+        <div class="container">
+          <div class="row">
+            <label>
+              <div class="col s4"></div>
+              <div class="input-field col s4">
+                <input name="username" type="text" class="login__username validate" required>
+                <label for="username">ID</label>
+                <span class="helper-text" data-error="ID를 입력해주세요" data-success="입력완료"></span>
+              </div>
+            </label>
+          </div>
+          <div class="row">
+            <label>
+              <div class="col s4"></div>
+              <div class="input-field col s4">
+                <input name="password" type="password" class="login__password validate" required>
+                <label for="username">Password</label>
+                <span class="helper-text" data-error="PW를 입력해주세요" data-success="입력완료"></span>
+              </div>
+            </label>
+          </div>
+        </div>
         <p class="login__alert"></p>
-        <button type="submit">전송</button>
-        <button class="login__join">회원가입</button>
-        <button class="login__home-btn">메인페이지로 가기</button>
+        <button type="submit" class="waves-effect waves-light btn">전송</button>
+        <button class="login__join waves-effect waves-light btn">회원가입</button>
+        <button class="login__home-btn waves-effect waves-light btn">메인페이지로 가기</button>
       </form>
     </div>
   </template>
 
   <!--회원가입-->
   <template id="join">
-    <div class="join">
+    <div class="join row">
       <h1 class="join__title">회원가입</h1>
-      <form class="join__form">
-        <label>
-          <span>ID :
-            <input name="username" type="text" class="join__username" required>
-          </span>
-        </label>
-        <label>
-          <span>PW :
-            <input name="password" type="password" class="join__password" required>
-          </span>
-        </label>
+      <form class="join__form col s12">
+        <div class="container">
+          <div class="row">
+            <label>
+              <div class="col s4"></div>
+              <div class="input-field col s4">
+                <input name="username" type="text" class="join__username validate" required>
+                <label for="username">ID</label>
+                <span class="helper-text" data-error="ID를 입력해주세요" data-success="입력완료"></span>
+              </div>
+            </label>
+          </div>
+          <div class="row">
+            <label>
+              <div class="col s4"></div>
+              <div class="input-field col s4">
+                <input name="password" type="password" class="join__password" required>
+                <label for="username">Password</label>
+                <span class="helper-text" data-error="PW를 입력해주세요" data-success="입력완료"></span>
+              </div>
+            </label>
+          </div>
+        </div>
         <p class="join__alert"></p>
-        <button type="submit">전송</button>
-        <button class="join__home-btn">메인페이지로 가기</button>
+        <button type="submit" class="waves-effect waves-light btn">전송</button>
+        <button class="join__home-btn waves-effect waves-light btn">메인페이지로 가기</button>
       </form>
     </div>
   </template>
 
   <!--메인화면-->
   <template id="product-list">
-    <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
-      <a class="navbar-brand">
-        <img src="http://www.iqjersey.com/wp-content/uploads/2017/07/MacBook-Logo@2x.png">
-      </a>
-      <div class="navbar-menu">
-        <a class="product__cart-btn navbar-item navbar-end">장바구니</a>
-        <a class="product__post-btn navbar-item navbar-end">상품 등록</a>
-        <a class="product__logout-btn navbar-item">로그아웃</a>
-        <a class="product__login-btn navbar-item navbar-end">로그인</a>
-        <a class="product__join-btn navbar-item">회원가입</a>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper">
+          <a class="brand-logo">
+            <i></i>
+            <i class="material-icons">desktop_mac</i>MacStore</a>
+          <ul class="right hide-on-med-and-down">
+            <li>
+              <a class="product__cart-btn">장바구니</a>
+            </li>
+            <li>
+              <a class="product__post-btn">상품 등록</a>
+            </li>
+            <li>
+              <a class="product__logout-btn">로그아웃</a>
+            </li>
+            <li>
+              <a class="product__login-btn">로그인</a>
+            </li>
+            <li>
+              <a class="product__join-btn">회원가입</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="conatiner row">
+      <div class="product-list"></div>
+    </div>
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">MacStore</h5>
+            <p class="grey-text text-lighten-4">저희 MacStore는 Apple Korea(유한회사)의 온라인 스토어로 Apple사의 정품만을 취급합니다.</p>
+            <p class="grey-text text-lighten-4">구입하시는 제품의 AS는 Apple AS 공식 지점에서 받으실 수 있습니다.</p>
+            <p class="grey-text text-lighten-4">고객분들에게 신뢰를 드리기 위해 전 임직원이 최선을 다하겠습니다.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">제품 관련 링크</h5>
+            <ul>
+              <li>
+                <a class="grey-text text-lighten-3" href="https://getsupport.apple.com/?caller=grl&locale=ko_KR">Apple AS 문의</a>
+              </li>
+              <li>
+                <a class="grey-text text-lighten-3" href="https://www.apple.com/kr/retail/">가까운 Apple Store 찾기</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </nav>
-    <div class="product-list"></div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2018 Copyright
+        </div>
+      </div>
+    </footer>
   </template>
 
   <!--메인화면에서 보여주는 상품들-->
   <template id="product-item">
-    <div class="product__pre">
+    <div class="product__pre card-panel hoverable center-align">
       <img class="product__img"></img>
-      <p class="product__cost"></p>
       <p class="product__title"></p>
+      <p class="product__cost"></p>
     </div>
   </template>
 
-  <!--상품 상세 화면-->
+  <!--세 화면-->
   <template id="product-content">
-    <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
-      <div class="navbar-menu">
-        <a class="product-content__back-btn navbar-item">뒤로가기</a>
-        <!-- <a class="navbar-item navbar-start is-active">메인페이지 > 상품페이지</a> -->
-        <a class="product-content__edit-btn navbar-item navbar-end">수정하기</a>
-        <a class="product-content__delete-btn navbar-item">삭제하기</a>
-        <a class="product__cart-btn navbar-item navbar-end">장바구니</a>
-        <a class="product__post-btn navbar-item">상품 등록</a>
-        <a class="product__logout-btn navbar-item">로그아웃</a>
-        <a class="product__login-btn navbar-item navbar-end">로그인</a>
-        <a class="product__join-btn navbar-item">회원가입</a>
-      </div>
-    </nav>
-    <div class="product-content">
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper">
+          <ul class="hide-on-med-and-down">
+            <li>
+              <a class="product-content__back-btn">뒤로가기</a>
+            </li>
+          </ul>
+          <ul class="right hide-on-med-and-down">
+            <li>
+              <a class="product-content__edit-btn">수정하기</a>
+            </li>
+            <li>
+              <a class="product-content__delete-btn">삭제하기</a>
+            </li>
+            <li>
+              <a class="product__cart-btn">장바구니</a>
+            </li>
+            <li>
+              <a class="product__post-btn">상품 등록</a>
+            </li>
+            <li>
+              <a class="product__logout-btn">로그아웃</a>
+            </li>
+            <li>
+              <a class="product__login-btn">로그인</a>
+            </li>
+            <li>
+              <a class="product__join-btn">회원가입</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="product-content center-align">
       <form class="product-content-form">
         <img class="product-content__img"></img>
         <p class="product-content__title"></p>
         <p class="product-content__cost"></p>
-        <span>수량 : </span>
-        <input type="text" name="amount" class="product-content__count" value="1" size="5">
+        <div class="row">
+          수량 :
+          <label>
+            <div class="input-field inline">
+              <input placeholder="수량을 입력해주세요" name="amount" type="text" class="product-content__count validate materialize-textarea" value="1"
+                size="4" max="999">
+            </div>
+          </label>
+        </div>
       </form>
-      <button class="product-content__count-plus">+</button>
-      <button class="product-content__count-minus">-</button>
-      <button class="product-content__cart-btn">장바구니에 담기</button>
-      <button class="product-content__order-btn">주문하기</button>
+      <button class="product-content__count-plus waves-effect waves-light btn">+</button>
+      <button class="product-content__count-minus waves-effect waves-light btn">-</button>
+      <button class="product-content__cart-btn waves-effect waves-light btn">장바구니에 담기</button>
+      <button class="product-content__order-btn waves-effect waves-light btn">주문하기</button>
       <p class="product-content__body"></p>
       <img class="product-content__bodyImg">
     </div>
@@ -119,96 +217,402 @@
 
   <!--상품 상세 화면에 구매평-->
   <template id="comments">
-    <div class="comments__list"></div>
-    <form class="comments__form">
-      <input name="body" type="text" class="comments__body-input">
-      <button class="comments__submit-btn">전송</button>
-    </form>
+    <div class="row">
+      <div class="col s3"></div>
+      <div class="comments__list col s4 left-align"></div>
+    </div>
+    <div class="row">
+      <form class="comments__form">
+        <div class="input-field col s3"></div>
+        <div class="input-field inline">
+          <input name="body" type="text" class="comments__body-input" size="95">
+          <label for="body">구매평 및 궁금하신 점을 써주세요</label>
+        </div>
+        <button class="comments__submit-btn waves-effect waves-light btn-small">전송</button>
+      </form>
+    </div>
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">MacStore</h5>
+            <p class="grey-text text-lighten-4">저희 MacStore는 Apple Korea(유한회사)의 온라인 스토어로 Apple사의 정품만을 취급합니다.</p>
+            <p class="grey-text text-lighten-4">구입하시는 제품의 AS는 Apple AS 공식 지점에서 받으실 수 있습니다.</p>
+            <p class="grey-text text-lighten-4">고객분들에게 신뢰를 드리기 위해 전 임직원이 최선을 다하겠습니다.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">제품 관련 링크</h5>
+            <ul>
+              <li>
+                <a class="grey-text text-lighten-3" href="https://getsupport.apple.com/?caller=grl&locale=ko_KR">Apple AS 문의</a>
+              </li>
+              <li>
+                <a class="grey-text text-lighten-3" href="https://www.apple.com/kr/retail/">가까운 Apple Store 찾기</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2018 Copyright
+        </div>
+      </div>
+    </footer>
   </template>
 
   <!--상품 상세 화면에 구매평 내용 보여주는 것-->
   <template id="comments-item">
-    <span class="comment-item__author"></span>
-    :
-    <span class="comment-item__body"></span>
-    <input name="body" type="text" class="comments__edit-body-input">
-    <button class="comment-item__remove-btn">삭제</button>
+    <div class="row">
+      <div class="input-field">
+        <span class="comment-item__author"></span>
+        <span class="comment-item__body"></span>
+        <input name="body" type="text" class="comments__edit-body-input">
+        <button class="comment-item__remove-btn waves-effect waves-light btn-small">삭제</button>
+      </div>
+    </div>
     <br>
   </template>
 
   <!--장바구니-->
-
   <template id="cart-product">
-    <h1 class="cart-product-item__header">장바구니</h1>
-    <div class="cart-product__list">
-      <p class="cart-product__sum-cost"></p>
-      <button class="cart-product-item__back-btn">메인페이지</button>
-      <button class="cart-product__order">주문하기</button>
-      <button class="product__logout-btn">로그아웃</button>
-      <!-- <button class="cart-product-item__cancel-btn">장바구니 기화</button> -->
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper">
+          <ul class="hide-on-med-and-down">
+            <li>
+              <a class="cart-product-item__main-btn">메인페이지</a>
+            </li>
+            <li>
+              <a class="cart-product-item__back-btn">뒤로가기</a>
+            </li>
+          </ul>
+          <ul class="right hide-on-med-and-down">
+            <li>
+              <a class="cart-product__order">주문하기</a>
+            </li>
+            <li>
+              <a class="product__logout-btn">로그아웃</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </div>
+    <h1 class="cart-product-item__header center-align">장바구니</h1>
+    <p class="cart-product__sum-cost center-align"></p>
+    <div class="cart-product__list center-align">
+      <!-- <button class="cart-product-item__cancel-btn">장바구니 초기화</button>-->
+    </div>
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">MacStore</h5>
+            <p class="grey-text text-lighten-4">저희 MacStore는 Apple Korea(유한회사)의 온라인 스토어로 Apple사의 정품만을 취급합니다.</p>
+            <p class="grey-text text-lighten-4">구입하시는 제품의 AS는 Apple AS 공식 지점에서 받으실 수 있습니다.</p>
+            <p class="grey-text text-lighten-4">고객분들에게 신뢰를 드리기 위해 전 임직원이 최선을 다하겠습니다.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">제품 관련 링크</h5>
+            <ul>
+              <li>
+                <a class="grey-text text-lighten-3" href="https://getsupport.apple.com/?caller=grl&locale=ko_KR">Apple AS 문의</a>
+              </li>
+              <li>
+                <a class="grey-text text-lighten-3" href="https://www.apple.com/kr/retail/">가까운 Apple Store 찾기</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2018 Copyright
+        </div>
+      </div>
+    </footer>
   </template>
 
   <template id="cart-product-item">
-    <form class="cart-product-item">
-      <img class="cart-product-item__img">
-      <br>상품명 :
-      <span class="cart-product-item__title"></span>
-      <br>수량 :
-      <span class="cart-product-item__count"></span>
-      <br>가격 :
-      <span class="cart-product-item__product-cost"></span>
+    <div class="container center-align">
+      <form class="cart-product-item">
+        <img class="cart-product-item__img">
+        <br>상품명 :
+        <span class="cart-product-item__title"></span>
+        <br>수량 :
+        <span class="cart-product-item__count"></span>
+        <br>가격 :
+        <span class="cart-product-item__product-cost"></span>
+      </form>
+      <div class="row">
+        <div class="col s4"></div>
+        <button class="cart-product-item__delete-btn waves-effect waves-light btn col s4">삭제하기</button>
+      </div>
+    </div>
+  </template>
+
+  <!--상품 결제 페이지-->
+  <template id="product-billing">
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper">
+          <ul class="hide-on-med-and-down">
+            <li>
+              <a class="product-billing__main-btn">메인페이지</a>
+            </li>
+            <li>
+              <a class="product-billing__back-btn">뒤로가기</a>
+            </li>
+          </ul>
+          <ul class="right hide-on-med-and-down">
+            <li>
+              <a class="product-billing__logout-btn">로그아웃</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <form class="product-billing-form">
+      <h1 class="product-billing__header center-align">결제 페이지</h1>
+      <p class="product-billing__sum-cost center-align"></p>
+      <div class="product-billing__list"></div>
+      <div class="product-billing__info center-align"></div>
+      <div class="row">
+        <div class="col s4"></div>
+        <button class="product-billing__order center-align waves-effect waves-light btn col s4">주문하기</button>
+      </div>
     </form>
-    <button class="cart-product-item__delete-btn">삭제하기</button>
+    <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">MacStore</h5>
+            <p class="grey-text text-lighten-4">저희 MacStore는 Apple Korea(유한회사)의 온라인 스토어로 Apple사의 정품만을 취급합니다.</p>
+            <p class="grey-text text-lighten-4">구입하시는 제품의 AS는 Apple AS 공식 지점에서 받으실 수 있습니다.</p>
+            <p class="grey-text text-lighten-4">고객분들에게 신뢰를 드리기 위해 전 임직원이 최선을 다하겠습니다.</p>
+          </div>
+          <div class="col l4 offset-l2 s12">
+            <h5 class="white-text">제품 관련 링크</h5>
+            <ul>
+              <li>
+                <a class="grey-text text-lighten-3" href="https://getsupport.apple.com/?caller=grl&locale=ko_KR">Apple AS 문의</a>
+              </li>
+              <li>
+                <a class="grey-text text-lighten-3" href="https://www.apple.com/kr/retail/">가까운 Apple Store 찾기</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">
+          © 2018 Copyright
+        </div>
+      </div>
+    </footer>
+  </template>
+
+  <template id="product-billing-item">
+    <div class="container center-align">
+      <img class="product-billing-item__img">
+      <div class="container">
+        <span class="product-billing-item__title"></span>
+        <span class="product-billing-item__product-count"></span>
+        <span class="product-billing-item__product-cost"></span>
+      </div>
+    </div>
+  </template>
+
+  <template id="product-billing-addInfo">
+    <h5 class="product-billing-addInfo__ordererInfo">배송지 정보</h5>
+    <div class="row">
+      <label>
+        <div class="col s4"></div>
+        <div class="input-field col s4">
+          <input type="text" name="name" class="product-billing-addInfo__name validate">
+          <label for="name">받으실 분의 성함을 입력해주세요</label>
+          <span class="helper-text" data-error="잘못된 입력입니다." data-success="입력완료"></span>
+        </div>
+      </label>
+    </div>
+    <div class="row">
+      <label>
+        <div class="col s4"></div>
+        <div class="input-field col s4">
+          <input type="tel" name="cellPhone" class="product-billing-addInfo__cellPhone validate">
+          <label for="cellPhone">연락 가능한 핸드폰 번호를 입력해주세요 (하이픈 포함)</label>
+          <span class="helper-text" data-error="핸드폰 번호를 확인해주세요" data-success="입력완료" maxlength="13"></span>
+        </div>
+      </label>
+    </div>
+    <div class="row">
+      <label>
+        <div class="col s4"></div>
+        <div class="input-field col s4">
+          <input type="email" name="email" class="product-billing-addInfo__email validate">
+          <label for="email">배송정보를 받으실 이메일 주소를 입력해주세요</label>
+          <span class="helper-text" data-error="잘못된 이메일 형식입니다" data-success="입력완료"></span>
+        </div>
+      </label>
+    </div>
+    <div class="row">
+      <label>
+        <div class="col s4"></div>
+        <div class="input-field col s4">
+          <input type="text" name="address" class="product-billing-addInfo__address validate">
+          <label for="address">배송을 받으실 주소를 입력해주세요</label>
+          <span class="helper-text" data-error="주소를 정확히 입력해주세요" data-success="입력완료"></span>
+        </div>
+      </label>
+    </div>
+    <div class="row">
+      <label>
+        <div class="col s4"></div>
+        <div class="input-field col s4">
+          <input type="text" name="requestText" class="product-billing-addInfo__requestText validate">
+          <label for="requestText">배송시 요청사항이 있다면 적어주세요</label>
+          <span class="helper-text" data-error="요청사항을 적어주세요" data-success="입력완료" maxlength="50"></span>
+        </div>
+      </label>
+    </div>
   </template>
 
   <!--관리자만 쓸 수 있는 기능들 : 상품 수정-->
   <template id="edit-form">
-    <form class="edit-form">
-      <h1 class="edit-form__header">상품 수정하기</h1>
-      <br> 상품명 :
-      <input name="title" type="text" class="edit-form__title" size="80">
-      <br> 상품이미지 :
-      <input name="imgUrl" type="text" class="edit-form__imgUrl">
-      <br> 상품설명 :
-      <textarea name="body" class="edit-form__body" cols="30" rows="10"></textarea>
-      <br> 상품수량 :
-      <input type="number" name="count" class="edit-form__count" min="1">
-      <br> 상품가격 :
-      <input type="number" name="cost" class="edit-form__cost" step="10">
-      <br> 상품설명이미지 :
-      <input name="bodyImgUrl" type="text" class="edit-form__bodyImgUrl">
-      <button class="edit-form__submit-btn">전송</button>
-      <button class="edit-form__back-btn">뒤로 가기</button>
+    <form class="edit-form center-align">
+      <h1 class="edit-form__header center-align">상품 수정하기</h1>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="title" type="text" class="edit-form__title">
+            <label class="active" for="title">상품명</label>
+            <span class="helper-text" data-error="상품명을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="imgUrl" type="text" class="edit-form__imgUrl">
+            <label class="active" for="imgUrl">상품이미지 URL</label>
+            <span class="helper-text" data-error="상품이미지 URL을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="productCount" type="number" class="edit-form__count" min="0">
+            <label class="active" for="productCount">상품수량</label>
+            <span class="helper-text" data-error="상품의 수량을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="cost" type="number" class="edit-form__cost" step="10">
+            <label class="active" for="cost">상품 가격</label>
+            <span class="helper-text" data-error="상품의 가격을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="body" type="text" class="edit-form__body">
+            <label class="active" for="body">상품 설명</label>
+            <span class="helper-text" data-error="상품의 설명을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="bodyImgUrl" type="text" class="edit-form__bodyImgUrl">
+            <label class="active" for="bodyImgUrl">상품 설명 이미지 URL</label>
+            <span class="helper-text" data-error="상품의 설명을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <button class="edit-form__submit-btn waves-effect waves-light btn">전송</button>
+      <button class="edit-form__back-btn waves-effect waves-light btn">뒤로 가기</button>
     </form>
   </template>
 
   <!--관리자만 쓸 수 있는 기능들 : 상품 등록-->
   <template id="post-product-form">
     <form class="post-product-form">
-      <h1 class="post-product-form__header">상품 등록하기</h1>
-      상품명 :
-      <input name="title" type="text" class="post-product-form__title">
-      <br> 상품이미지 (url입력) :
-      <input name="imgUrl" type="text" class="post-product-form__imgUrl" size="40">
-      <br> 상품 수량 :
-      <input type="number" name="productCount" class="post-product-form__count" min="1">
-      <br> 상품 가격 :
-      <input type="number" name="productCost" class="post-product-form__cost" step="10">
-      <br> 상품설명 :
-      <textarea name="body" class="post-product-form__body"></textarea>
-      <br> 상품설명이미지 (url입력) :
-      <input name="bodyImgUrl" type="text" class="post-product-form__bodyImgUrl" size="40">
-      <br>
-      <button class="post-product-form__submit-btn">전송</button>
-      <button class="post-product-form__back-btn">뒤로가기</button>
+      <h1 class="post-product-form__header center-align">상품 등록하기</h1>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="title" type="text" class="post-product-form__title">
+            <label for="title">상품명</label>
+            <span class="helper-text" data-error="상품명을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="imgUrl" type="text" class="post-product-form__imgUrl">
+            <label for="imgUrl">상품이미지 URL</label>
+            <span class="helper-text" data-error="상품이미지 URL을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="productCount" type="number" class="post-product-form__productCount" min="1">
+            <label for="productCount">상품수량</label>
+            <span class="helper-text" data-error="상품의 수량을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="productCost" type="number" class="post-product-form__productCost" step="10">
+            <label for="productCost">상품 가격</label>
+            <span class="helper-text" data-error="상품의 가격을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="body" type="text" class="post-product-form__body">
+            <label for="body">상품 설명</label>
+            <span class="helper-text" data-error="상품의 설명을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <div class="row">
+        <label>
+          <div class="col s4"></div>
+          <div class="input-field col s4">
+            <input name="bodyImgUrl" type="text" class="post-product-form__bodyImgUrl">
+            <label for="bodyImgUrl">상품 설명 이미지 URL</label>
+            <span class="helper-text" data-error="상품의 설명을 입력해주세요" data-success="입력완료"></span>
+          </div>
+        </label>
+      </div>
+      <button class="post-product-form__submit-btn waves-effect waves-light btn">전송</button>
+      <button class="post-product-form__back-btn waves-effect waves-light btn">뒤로가기</button>
     </form>
-  </template>
-
-  <!--상품 결제 페이지-->
-  <template id="product-billing">
-    <h1 class="product-billing__header">결제 페이지</h1>
-    <div class="product-billing__list"></div>
   </template>
 
   <script src="./index.js"></script>

@@ -7,7 +7,11 @@ module.exports = {
     write: 'ownerOnly'
   },
   carts: {
-    read: 'ifAuthed',
+    read: 'ownerOnly',
+    write: 'ownerOnly'
+  },
+  orders: {
+    read: 'ownerOnly',
     write: 'ownerOnly'
   }
 };
