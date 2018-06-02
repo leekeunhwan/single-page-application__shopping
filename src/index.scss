@@ -11,13 +11,15 @@ body {
 
 .product {
   &__login-btn,
-  &__join-btn {
+  &__join-btn,
+  &__myPage-btn {
     .root--authed & {
       display: none;
     }
   }
   &__logout-btn,
-  &__cart-btn {
+  &__cart-btn,
+  &__myPage-btn {
     display: none;
     .root--authed & {
       display: block;
@@ -162,4 +164,17 @@ footer {
 
 .product-billing__order {
   margin-bottom: 2em;
+}
+
+.myPage__list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.item-border {
+  margin-left: 18em;
+  border-bottom: 3px solid salmon;
+  padding-bottom: 20px;
+  width: 650px;
 }

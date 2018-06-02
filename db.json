@@ -2,7 +2,8 @@
   "users": [
     {
       "id": 1,
-      "username": "admin"
+      "username": "admin",
+      "hashedPassword": "$2a$10$MURLbkbmZqo3LmznbScrsetZBjn4o86w5MKDGfE3XhNZO3R5U/A4K"
     },
     {
       "id": 2,
@@ -12,8 +13,7 @@
     {
       "username": "moong2",
       "cash": "7700000",
-      "id": 3,
-      "hashedPassword": "$2a$10$c3wTO9UktU5TG03EWtowgOcVZNezq1C8ZhHStc9B659LwXY/hLcwe"
+      "id": 3
     },
     {
       "username": "dongwon",
@@ -244,18 +244,6 @@
     },
     {
       "amount": "1",
-      "productId": "4",
-      "userId": 5,
-      "id": 3
-    },
-    {
-      "amount": "1",
-      "productId": "5",
-      "userId": 5,
-      "id": 4
-    },
-    {
-      "amount": "1",
       "productId": "5",
       "userId": 1,
       "id": 5
@@ -268,9 +256,15 @@
     },
     {
       "amount": "1",
-      "productId": "3",
+      "productId": "5",
       "userId": 3,
       "id": 7
+    },
+    {
+      "amount": "1",
+      "productId": "3",
+      "userId": 5,
+      "id": 8
     }
   ],
   "comments": [
@@ -383,5 +377,28 @@
       "id": 40
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "title": "[Apple] MacBook (MNYL2KH/A) 12형 1.3DQ 512GB 골드",
+      "amount": "1",
+      "name": "이근환",
+      "cellPhone": "010-2076-3948",
+      "address": "서울시 광진구 군자로 12길 25 B동 201호",
+      "email": "dlrmsghks7@gmail.com",
+      "requestText": "빠른 배송 부탁드립니다.",
+      "userId": 5,
+      "id": 1
+    },
+    {
+      "title": "[Apple] MacBook (MNYL2KH/A) 12형 1.3DQ 512GB 골드",
+      "amount": "1",
+      "name": "이근환",
+      "cellPhone": "010-2076-3948",
+      "address": "서울시 광진구 군자로 12길 25 B동 201호",
+      "email": "dlrmsghks7@gmail.com",
+      "requestText": "흠.. 조심히 가져다 주세요",
+      "userId": 5,
+      "id": 2
+    }
+  ]
 }

@@ -60,7 +60,9 @@ const templates = {
   cartProductForm: document.querySelector('#cart-product-item').content,
   productBilling: document.querySelector('#product-billing').content,
   productBillingItem: document.querySelector('#product-billing-item').content,
-  productBillingInfo: document.querySelector('#product-billing-addInfo').content
+  productBillingInfo: document.querySelector('#product-billing-addInfo').content,
+  myPage: document.querySelector('#myPage').content,
+  myPageItem: document.querySelector('#myPage-item').content
 }
 
 // render
@@ -184,12 +186,48 @@ async function joinPage() {
   render(fragment);
 }
 
+// 마이페이지 (결제정보 보여주는 곳)
+
+async function myPages() {
+  const res = await productAPI.get('orders')
+  if (res.data[0] == null) {
+    alert('결제내역이 없습니다.')
+    indexPage();
+  } else {
+    const fragment = document.importNode(templates.myPage, true);
+    fragment.querySelector('.myPage__back-btn').addEventListener('click', async e => {
+      indexPage();
+    })
+    fragment.querySelector('.myPage__order').addEventListener('click', e => {
+      cartPage();
+    })
+    fragment.querySelector('.myPage__logout-btn').addEventListener('click', e => {
+      logout();
+      alert('감사합니다! 즐거운 하루 되십시요!');
+      indexPage();
+    })
+    res.data.forEach(item => {
+      console.log(item);
+      const itemFragment = document.importNode(templates.myPageItem, true);
+      itemFragment.querySelector('.myPage-item__title').textContent = item.title;
+      itemFragment.querySelector('.myPage-item__count').textContent = item.amount;
+      itemFragment.querySelector('.myPage-item__name').textContent = item.name;
+      itemFragment.querySelector('.myPage-item__tel').textContent = item.cellPhone;
+      itemFragment.querySelector('.myPage-item__email').textContent = item.email;
+      itemFragment.querySelector('.myPage-item__requestText').textContent = item.requestText;
+      fragment.querySelector('.myPage__list').appendChild(itemFragment);
+    })
+    render(fragment);
+  }
+}
+
+
 // 장바구니를 보여주는 페이지
 async function cartPage() {
   const res = await productAPI.get(`/carts?_expand=product`)
   if (res.data[0] == null) {
     alert('장바구니가 비었습니다.')
-    indexPage();
+    return
   } else {
     // const resMe = await productAPI.get(`/me`)
     // for (let i = 0; i < res.data.length; i++) {
@@ -269,6 +307,9 @@ async function orderPage() {
     alert('감사합니다! 즐거운 하루 되십시요!');
     indexPage();
   })
+  fragment.querySelector('.product-billing__myPage-btn').addEventListener('click', e => {
+    myPages();
+  })
   const infoFragment = document.importNode(templates.productBillingInfo, true);
   fragment.querySelector('.product-billing__info').appendChild(infoFragment);
   res.data.forEach(bill => {
@@ -296,7 +337,14 @@ async function orderPage() {
         //   const res = await productAPI.delete(`carts`)
         // }
 
-
+        // const resMe = await productAPI.get('me')
+        // console.log(resMe.data.id)
+        // const resCart = await productAPI.get(`carts?userId=3`)
+        // console.log(resCart);
+        // for (let i = 0; i < resCart.data.length; i++) {
+        //   const res = await productAPI.delete(`${resCart}`);
+        //   console.log(res);
+        // }
         for (const bill of res.data) {
           const payload = {
             title: bill.product.title,
@@ -310,7 +358,7 @@ async function orderPage() {
           const res = await productAPI.post(`orders`, payload)
         }
         alert('결제를 완료하였습니다.')
-        indexPage();
+        myPages();
       } catch (e) {
         alert('결제중에 문제가 생겼습니다. 잠시 후에 다시 이용부탁드립니다.')
         return
@@ -397,6 +445,10 @@ async function productPage(productId) {
       loginPage();
     }
   })
+  fragment.querySelector('.product__myPage-btn').addEventListener('click', e => {
+    myPages();
+  })
+
   fragment.querySelector('.product-content__back-btn').addEventListener('click', e => {
     indexPage();
   })
@@ -478,7 +530,9 @@ async function indexPage() {
   listFragment.querySelector('.product__login-btn').addEventListener('click', e => {
     loginPage();
   })
-
+  listFragment.querySelector('.product__myPage-btn').addEventListener('click', e => {
+    myPages();
+  })
   listFragment.querySelector('.product__logout-btn').addEventListener('click', e => {
     logout();
     alert('이용해 주셔서 감사합니다! 즐거운 하루 되십시요!')
