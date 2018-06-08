@@ -2,7 +2,8 @@
   "users": [
     {
       "id": 1,
-      "username": "admin"
+      "username": "admin",
+      "hashedPassword": "$2a$10$b61xyv2aixrnflBsTnN8KucbXSfUdsnGNO7QQbrvA/5zfxf/mDMDu"
     },
     {
       "id": 2,
@@ -12,7 +13,8 @@
     {
       "username": "moong2",
       "cash": "7700000",
-      "id": 3
+      "id": 3,
+      "hashedPassword": "$2a$10$8tBtmwBTaIHUmT54iXk2uObylmSfMxluJQXNHdMKpA54x6u0fWBk."
     },
     {
       "username": "dongwon",
