@@ -2,8 +2,7 @@
   "users": [
     {
       "id": 1,
-      "username": "admin",
-      "hashedPassword": "$2a$10$MURLbkbmZqo3LmznbScrsetZBjn4o86w5MKDGfE3XhNZO3R5U/A4K"
+      "username": "admin"
     },
     {
       "id": 2,
@@ -23,7 +22,6 @@
     {
       "username": "test",
       "cash": "0",
-      "hashedPassword": "$2a$10$WhOibgU6mKZok33fLw5gQe6KTB8OndHit0Ix2X98c2O/D5yVO7obK",
       "id": 5
     }
   ],
@@ -255,16 +253,16 @@
       "id": 6
     },
     {
-      "amount": "1",
-      "productId": "5",
-      "userId": 3,
-      "id": 7
+      "amount": "6",
+      "productId": "2",
+      "userId": 5,
+      "id": 9
     },
     {
-      "amount": "1",
-      "productId": "3",
-      "userId": 5,
-      "id": 8
+      "amount": "999",
+      "productId": "2",
+      "userId": 3,
+      "id": 10
     }
   ],
   "comments": [
@@ -375,6 +373,36 @@
       "productId": "3",
       "userId": 2,
       "id": 40
+    },
+    {
+      "body": "얼마나 걸리나요?",
+      "productId": "2",
+      "userId": 5,
+      "id": 41
+    },
+    {
+      "body": "왜 안되?",
+      "productId": "2",
+      "userId": 3,
+      "id": 42
+    },
+    {
+      "body": "하이",
+      "productId": "3",
+      "userId": 3,
+      "id": 43
+    },
+    {
+      "body": "하하하",
+      "productId": "3",
+      "userId": 3,
+      "id": 44
+    },
+    {
+      "body": "하하하하하하핳",
+      "productId": "3",
+      "userId": 3,
+      "id": 45
     }
   ],
   "orders": [
@@ -399,6 +427,28 @@
       "requestText": "흠.. 조심히 가져다 주세요",
       "userId": 5,
       "id": 2
+    },
+    {
+      "title": "[Apple] MacBook (MNYL2KH/A) 12형 1.3DQ 512GB 골드",
+      "amount": "1",
+      "name": "방민지",
+      "cellPhone": "010-2562-8480",
+      "address": "in my heart",
+      "email": "dlrmsghks7@gmail.com",
+      "requestText": "asdf",
+      "userId": 5,
+      "id": 3
+    },
+    {
+      "title": "[Apple] MacBook Pro (MPTT2KH/A) 15형 2.9QC Touch Bar 512GB 그레이",
+      "amount": "6",
+      "name": "이근환",
+      "cellPhone": "010-9999-9999",
+      "address": "서울시 군자로 내마음속",
+      "email": "dlrmsghks7@gmail.com",
+      "requestText": "빠르게 갖다주세요",
+      "userId": 5,
+      "id": 4
     }
   ]
 }
